@@ -3,7 +3,7 @@
 <head>
   <title>Our simple HTTP server</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
-  
+  <meta charset="utf-8">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
 
@@ -32,6 +32,34 @@
     </form>
   </section>
   <section id="content">
+    <h1 id = "header"></h1>
+    <p id = "message"></p>
   </section>
+  <script>
+    const nameField = document.querySelector("#nameField");
+    const ageField = document.querySelector("#ageField");
+    const submitBtn = document.querySelector('input[value="Add User"]');
+
+    const urlField = document.querySelector("#urlField");
+    const methodSelect = document.querySelector("#methodSelect");
+    const getUserBtn = document.querySelector('input[value="Get User"]');
+
+    const header = document.querySelector("#header");
+    const me = document.querySelector("#message");
+    getUserBtn.addEventListener('click', () => {
+      const url = urlField.children[urlField.selectedIndex].innerHTML;
+      const method = methodSelect.children[methodSelect.selectedIndex].innerHTML;
+      let xhr = new XMLHttpRequest();
+      xhr.setRequestHeader("Accept", "application/json");
+      xhr.open(method, url);
+      xhr.onload = () => {
+        let response = xhr.responseText;
+        if (response) {
+          header.innerHTML = "Success";
+        }
+      };
+      //xhr.send();
+    })
+  </script>
 </body>
 </html>
