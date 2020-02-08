@@ -4,22 +4,16 @@
   <title>Our simple HTTP server</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
   <meta charset="utf-8">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
-  <script type="text/babel">
-
-  </script>
 </head>
 <body>
   <section id="top">
     <h3>POST Status Code Tests</h3>
-    <form id="nameForm" action="/addUser" method="post">
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
       <label for="age">Age: </label>
       <input id="ageField" type="number" name="age" min="0" max="100" step="1"/>
       <input type="submit" value="Add User" />
-    </form>
-    <form id="userForm" action="/getUsers" method="get">
+      <br />
       <select id='urlField'>
         <option value='/getUsers'>/getUsers</option>
         <option value='/notReal'>/notReal</option>
@@ -29,7 +23,6 @@
         <option value="head">HEAD</option>
       </select>
       <input type="submit" value="Get User" />
-    </form>
   </section>
   <section id="content">
     <h1 id = "header"></h1>
@@ -45,21 +38,46 @@
     const getUserBtn = document.querySelector('input[value="Get User"]');
 
     const header = document.querySelector("#header");
-    const me = document.querySelector("#message");
+    const message = document.querySelector("#message");
     getUserBtn.addEventListener('click', () => {
       const url = urlField.children[urlField.selectedIndex].innerHTML;
       const method = methodSelect.children[methodSelect.selectedIndex].innerHTML;
       let xhr = new XMLHttpRequest();
-      xhr.setRequestHeader("Accept", "application/json");
       xhr.open(method, url);
+      xhr.setRequestHeader("Accept", "application/json");
       xhr.onload = () => {
         let response = xhr.responseText;
-        if (response) {
-          header.innerHTML = "Success";
+        if (xhr.status != 404){
+            header.innerHTML = "Success";
+          }
+          else {
+            header.innerHTML = "Failure";
+          }
+        message.innerHTML = response;
+      }
+      xhr.send();
+    });
+    submitBtn.addEventListener('click', () => {
+      const name = nameField.value;
+      const age = ageField.value;
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST", "/addUser");
+      xhr.onload = () => {
+        const codeToHeader = {
+          201: "Create",
+          204: "Updated (No Content)",
+          400: "Bad Request"
         }
-      };
-      //xhr.send();
-    })
+        header.innerHTML = codeToHeader[xhr.status];
+        if (xhr.response) {
+          message.innerHTML = JSON.parse(xhr.response).message;
+        }
+        else {
+          message.innerHTML = "";
+        }
+      }
+      xhr.send(`name=${name}&age=${age}`);
+    }) 
   </script>
 </body>
 </html>
