@@ -17,13 +17,13 @@ const onRequest = (request, response) => {
       userHandler.getUsers(request, response);
       break;
     case '/notReal':
-        userHandler.getNotReal(request, response);
-        break;
+      userHandler.getNotReal(request, response);
+      break;
     case '/addUser':
-        userHandler.addUser(request, response);
-        break;
+      userHandler.addUser(request, response);
+      break;
     default:
-        userHandler.getNotReal(request, response);
+      userHandler.getNotReal(request, response);
       break;
   }
 };
