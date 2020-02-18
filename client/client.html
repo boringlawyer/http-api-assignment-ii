@@ -55,6 +55,7 @@
           }
         if (response) {
           const parsed = JSON.parse(response);
+          console.log(parsed);
           if (parsed.message) {
             message.innerHTML = parsed.message;
           }
@@ -82,6 +83,7 @@
         }
         header.innerHTML = codeToHeader[xhr.status];
         if (xhr.response) {
+          console.log(JSON.parse(xhr.response));
           message.innerHTML = JSON.parse(xhr.response).message;
         }
         else {
