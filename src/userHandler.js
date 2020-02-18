@@ -32,7 +32,9 @@ const addUser = (request, response) => {
       response.end();
       return;
     }
-    if (users[newEntry.name] && users[newEntry.name].name == newEntry.name && users[newEntry.name].age == newEntry.age) {
+    // if (users[newEntry.name] && users[newEntry.name].name == newEntry.name && users[newEntry.name].age == newEntry.age) {
+    if (users[newEntry.name] && newEntry.age) {
+      users[newEntry.name] = newEntry;
       response.writeHead(204);
       response.end();
     }
