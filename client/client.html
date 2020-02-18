@@ -53,7 +53,19 @@
           else {
             header.innerHTML = "Failure";
           }
-        message.innerHTML = response;
+        if (response) {
+          const parsed = JSON.parse(response);
+          if (parsed.message) {
+            message.innerHTML = parsed.message;
+          }
+          else {
+            message.innerHTML = response;
+          }
+        }
+        else {
+          message.innerHTML = "";
+        }
+        
       }
       xhr.send();
     });
